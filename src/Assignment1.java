@@ -68,4 +68,5 @@ public class Assignment1 {
         System.out.println("using do-while-loop, sum = " + sum3);
     }
 
+
 }
