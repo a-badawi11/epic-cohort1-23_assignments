@@ -30,11 +30,13 @@ public class Assignment4 {
     public static void main(String[] args) {
         System.out.println("List of student ages: " + getStudentAges().toString());
 
+        Map<String, List<Student>> map = groupByAge();
+
         System.out.println("students with age equal or greater than 20");
-        groupByAge().get(">=20").forEach(s -> System.out.println(s.getName()));
+        map.get(">=20").forEach(s -> System.out.println(s.getName()));
 
         System.out.println("students with age less than 20");
-        groupByAge().get("<20").forEach(s -> System.out.println(s.getName()));
+        map.get("<20").forEach(s -> System.out.println(s.getName()));
 
     }
 
