@@ -168,19 +168,18 @@ public class MyLinkedList<E> {
         return zip(new MyLinkedList<Tuple<E,U>>(),eFirst,uFirst);
     }
 
-    public static  <T,U> Tuple<MyLinkedList<T>,MyLinkedList<U>> unZip(MyLinkedList<Tuple<T,U>> zippedList){
+    public static <T,U> Tuple<MyLinkedList<T>,MyLinkedList<U>> unZip(MyLinkedList<Tuple<T,U>> zippedList){
 
-        Tuple<MyLinkedList<T>,MyLinkedList<U>> result = new Tuple<>(new MyLinkedList<>(), new MyLinkedList<>());
+        return unZip(new Tuple<>(new MyLinkedList<>(), new MyLinkedList<>()), zippedList.first);
 
-        Iterator<Tuple<T, U>> iterator = zippedList.stream().iterator();
-
-        while (iterator.hasNext()) {
-            Tuple<T,U> item = iterator.next();
-            result._1.add(item._1);
-            result._2.add(item._2);
+    }
+    private static <U, T> Tuple<MyLinkedList<T>,MyLinkedList<U>> unZip(Tuple<MyLinkedList<T>,MyLinkedList<U>> acc, MyLinkedList<Tuple<T,U>>.Node iFirst) {
+        if(iFirst == null) {
+            return acc;
         }
-
-        return result;
+        acc._1.add(iFirst.data._1);
+        acc._2.add(iFirst.data._2);
+        return unZip(acc, iFirst.next);
     }
 
     private <U> MyLinkedList<Tuple<E, U>> zip(MyLinkedList<Tuple<E, U>> acc, Node eNode, Node uNode) {
