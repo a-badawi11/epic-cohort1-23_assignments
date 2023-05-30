@@ -9,29 +9,39 @@ import java.util.*;
 
 public class Assignment9 {
 
-    static Student2[] students = new Student2[]{
-            new Student2(5, "Ahmad"),
-            new Student2(3, "Mohammad")
-    };
-
-    private static Student2 getStudentById(int id) { // unchecked NoSuchElementException
-        return Arrays.stream(students).filter(s -> s.getId() == id).findFirst().get();
-
-    }
-
-    private static Class getClassByName(String className)  { // checked exception
+    public static void main(String[] args) {
 
         try {
-            return Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            System.out.println("Class with passed name doesn't exists");
-            return null;
+            User user = findUserByIdV2(2);
+            System.out.println("user.getName() = " + user.getName());
+        } catch (UserNotFoundException e) {
+            System.out.println(e.getMessage());
         }
 
+        Optional<User> user = findUserByIdV3(3);
+        user.ifPresent(u -> System.out.println(u.getName()));
+
+        findUserById(2);
     }
 
-    private static Optional<Student2> getStudentByIdV3(int id) {
+    private static User findUserById(int id) {
+        if (id != 3) {
+            throw new UserNotFoundExceptionRuntime("User with id " + id + " couldn't be found");
+        }
+        return new User(3, "Ahmad");
+    }
 
-        return Arrays.stream(students).filter(s -> s.getId() == id).findFirst();
+    private static User findUserByIdV2(int id) throws UserNotFoundException {
+        if (id != 3) {
+            throw new UserNotFoundException("User with id " + id + " couldn't be found");
+        }
+        return new User(3, "Ahmad");
+    }
+
+    private static Optional<User> findUserByIdV3(int id) {
+        if(id == 3) {
+            return Optional.of(new User(3, "Mohammad"));
+        }
+        return Optional.empty();
     }
 }
